@@ -1,0 +1,15 @@
+Challenge: Reconciling Loan Classifications
+When I first calculated the good loan percentage using simple COUNT conditions, I got 86.18%. However, when I independently summed good loans and calculated percentage, I got 86.20%. This 0.02% discrepancy seemed small but raised questions about data integrity.
+Root Cause Analysis: I discovered that some records had null values in the loan_status field that my initial query wasn't handling correctly. The COUNT condition silently dropped these rows, while my alternative calculation was including them inconsistently.
+Solution Approach:
+1.	Identified: Found 7 records with null loan_status values (0.02% of dataset)
+2.	Investigated: Determined these were legacy records, not missing data
+3.	Decided: Consulted with domain experts that these should be classified as 'Unknown' status
+4.	Implemented: Updated both MySQL queries and DAX measures to explicitly handle nulls using ISNULL() functions
+5.	Validated: Re-calculated all metrics, verified consistency across platforms
+Result:
+•	Achieved 100% data consistency
+•	Improved query robustness for future data updates
+•	Documented the decision for audit trail
+Learning: Always validate calculations using multiple methods. Small discrepancies often reveal important data quality issues.
+
